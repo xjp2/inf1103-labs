@@ -5,3 +5,6 @@ while True:
     if not userInput.isdigit():
         print("Invalid input. Please enter a valid stock quantity.")
         continue
+    else:
+        inventory += int(userInput)
+        print(f"Current Inventory: {inventory}")
