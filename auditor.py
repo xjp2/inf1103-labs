@@ -8,3 +8,6 @@ while True:
     else:
         inventory += int(userInput)
         print(f"Current Inventory: {inventory}")
+        if inventory >= 500:
+            print("Inventory limit reached. No more stock can be added.")
+            break
