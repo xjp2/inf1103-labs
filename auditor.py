@@ -1,7 +1,7 @@
 inventory = 0
 failcount = 0
 while True:
-    userInput = input("Enter a stock quantity to add (or type 'exit' to quit): ")
+    userInput = input("Enter a stock quantity to add (or type 'quit' to quit): ")
     if userInput.lower() == 'quit':
         print("Total Units Processed: ", inventory)
         print("Failed entries: ", failcount)
@@ -16,3 +16,5 @@ while True:
         if inventory >= 500:
             print("Inventory limit reached. No more stock can be added.")
             break
+
+    
