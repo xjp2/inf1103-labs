@@ -1,9 +1,14 @@
+uid = 0
 def load_inventory():
     with open("inventory.txt", "a+") as file:
         file.seek(0)
-        inventory_data = file.read()
+        inventory_data = file.readlines()
         if inventory_data == "":
-            file.write("Current Orders:\n")
+            global uid
+            uid = 1000
+            file.write("Current Orders:")
+        else:
+            uid = int(inventory_data[-1].split(",")[0].strip().replace('"', ''))
         
 history = []
 load_inventory()
@@ -14,5 +19,6 @@ while True:
         print("Invalid input. Please enter a valid stock quantity.")
         continue
     else:
-        history.append((productInput, int(QuantityInput)))
+        uid += 1
+        history.append((uid,productInput, int(QuantityInput)))
     print("Current Inventory: ", history)
