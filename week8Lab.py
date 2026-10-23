@@ -6,6 +6,12 @@ class Product:
         self.__name = name
         self.__price = price
         self.__stock = stock
+        
+    def update_stock(self, new_quantity):
+        self.__stock = new_quantity
+
+    def display_information(self):
+        print(f"ID: {self.__product_id} | Name: {self.__name} | Price: ${self.__price:.2f} | Stock: {self.__stock}")
 
 def load_inventory():
     global inventory
