@@ -13,6 +13,10 @@ class Product:
     def display_information(self):
         print(f"ID: {self.__product_id} | Name: {self.__name} | Price: ${self.__price:.2f} | Stock: {self.__stock}")
 
+class Inventory:
+    def __init__(self):
+        self.__products = []
+    
 def load_inventory():
     global inventory
     with open("inventory.json", "a+") as file:
