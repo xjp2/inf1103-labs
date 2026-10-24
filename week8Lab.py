@@ -22,6 +22,7 @@ class Product:
 
     def get_stock(self):
         return self.__stock
+    
 class Inventory:
     def __init__(self):
         self.__products = []
@@ -32,11 +33,16 @@ class Inventory:
     def search_product(self, target_id):
         for item in self.__products:
             if item.get_id() == target_id:
-                item.display_information()
+                return item
+        return None
+
     def display_all(self):
         for item in self.__products:
             item.display_information()
 
+    def get_all_products(self):
+        return self.__products
+    
 inventory = Inventory()
 
 def load_inventory():
@@ -65,16 +71,17 @@ def load_inventory():
 def save_inventory():
     global inventory
     print("Saving inventory...")
+    product_list = inventory.get_all_products()
     with open("inventory.json", "w") as file:
         file.write("[\n")
         index = 0
-        total = len(inventory)
-        for item in inventory:
+        total = len(product_list)
+        for item in product_list:
             file.write("  {\n")
-            file.write('    "id": "' + item["id"] + '",\n')
-            file.write('    "name": "' + item["name"] + '",\n')
-            file.write('    "price": ' + str(item["price"]) + ",\n")
-            file.write('    "stock": ' + str(item["stock"]) + "\n")
+            file.write('    "id": "' + item.get_id() + '",\n')
+            file.write('    "name": "' + item.get_name() + '",\n')
+            file.write('    "price": ' + str(item.get_price()) + ",\n")
+            file.write('    "stock": ' + str(item.get_stock()) + "\n")
             index += 1
             if index < total:
                 file.write("  },\n")
@@ -130,10 +137,11 @@ def search_product(inv):
     if target:
         print("Product Found")
         print("------------------------------------------------")
-        inv.display_product(target)
+        target.display_information() # Tell the object to print itself
         print("------------------------------------------------\n")
     else:
         print("Product not found.\n")
+
 
 
 # Main Program
