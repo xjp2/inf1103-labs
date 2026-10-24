@@ -117,18 +117,12 @@ def search_product(inv):
     print("Search Product")
     pid = input("Enter Product ID: ")
 
-    target = None
-    for item in inv:
-        if item["id"] == pid:
-            target = item
+    target = inv.search_product(pid)
 
     if target:
         print("Product Found")
         print("------------------------------------------------")
-        print("ID: " + target["id"])
-        print("Name: " + target["name"])
-        print("Price: $" + f"{target['price']:.2f}")
-        print("Stock: " + str(target["stock"]))
+        inv.display_product(target)
         print("------------------------------------------------\n")
     else:
         print("Product not found.\n")
