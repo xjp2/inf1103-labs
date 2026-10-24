@@ -98,22 +98,21 @@ def update_stock(inv):
     print("Update Stock")
     pid = input("Enter Product ID: ")
 
-    target = None
-    for item in inv:
-        if item["id"] == pid:
-            target = item
+    # Ask the inventory object to find the product
+    target = inv.search_product(pid)
 
     if target:
         print("Product Found:")
-        print("Name: " + target["name"])
-        print("Current Stock: " + str(target["stock"]))
+        target.display_information() # Tell the object to print its info
         new_stock = int(input("New Stock Quantity: "))
-        target["stock"] = new_stock
+        
+        # Tell the object to update its own stock
+        target.update_stock(new_stock)
         print("Stock updated successfully!\n")
     else:
         print("Product not found.\n")
 
-
+    
 def search_product(inv):
     print("Search Product")
     pid = input("Enter Product ID: ")
