@@ -13,10 +13,24 @@ class Product:
     def display_information(self):
         print(f"ID: {self.__product_id} | Name: {self.__name} | Price: ${self.__price:.2f} | Stock: {self.__stock}")
 
+    def get_id(self):
+        return self.__product_id
+    
 class Inventory:
     def __init__(self):
         self.__products = []
-    
+
+    def add_product(self, product):
+            self.__products.append(product)
+
+    def search_product(self, target_id):
+        for item in self.__products:
+            if item.get_id() == target_id:
+                item.display_information()
+    def display_all(self):
+        for item in self.__products:
+            item.display_information()
+            
 def load_inventory():
     global inventory
     with open("inventory.json", "a+") as file:
