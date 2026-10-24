@@ -1,5 +1,3 @@
-inventory = []
-
 class Product:
     def __init__(self, product_id, name, price, stock):
         self.__product_id = product_id
@@ -30,7 +28,9 @@ class Inventory:
     def display_all(self):
         for item in self.__products:
             item.display_information()
-            
+
+inventory = Inventory()
+
 def load_inventory():
     global inventory
     with open("inventory.json", "a+") as file:
@@ -39,13 +39,20 @@ def load_inventory():
         if data == "" or data == "[]":
             print("inventory.json found.")
             print("Starting with empty inventory.\n")
-            inventory = []
         else:
             print("inventory.json found.")
             print("Inventory loaded successfully.\n")
-            # Parse string structure into Python list of dictionaries
             clean = data.replace("true", "True").replace("false", "False").replace("null", "None")
-            inventory = eval(clean)
+            loaded_dicts = eval(clean) 
+            
+            # TODO: Loop through loaded_dicts, create a Product, and add it to inventory
+            for item in loaded_dicts:
+                raw_id = item["id"]
+                raw_name = item["name"]
+                raw_price = item["price"]
+                raw_stock = item["stock"]
+                new_product = Product(raw_id, raw_name, raw_price, raw_stock)
+                inventory.add_product(new_product)
 
 
 def save_inventory():
@@ -69,22 +76,6 @@ def save_inventory():
         file.write("]\n")
     print("Inventory saved successfully to inventory.json.\n")
 
-
-def display_all(inv):
-    print("Current Inventory")
-    print("------------------------------------------------")
-    for item in inv:
-        print(
-            "ID: "
-            + item["id"]
-            + " | Name: "
-            + item["name"]
-            + " | Price: $"
-            + f"{item['price']:.2f}"
-            + " | Stock: "
-            + str(item["stock"])
-        )
-    print("------------------------------------------------\n")
 
 
 def add_product(inv):
@@ -168,7 +159,7 @@ while True:
     print()
 
     if option == "1":
-        display_all(inventory)
+        inventory.display_all()
     elif option == "2":
         add_product(inventory)
     elif option == "3":
