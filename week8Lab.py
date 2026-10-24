@@ -45,7 +45,6 @@ def load_inventory():
             clean = data.replace("true", "True").replace("false", "False").replace("null", "None")
             loaded_dicts = eval(clean) 
             
-            # TODO: Loop through loaded_dicts, create a Product, and add it to inventory
             for item in loaded_dicts:
                 raw_id = item["id"]
                 raw_name = item["name"]
@@ -78,24 +77,22 @@ def save_inventory():
 
 
 
-def add_product(inv):
+def handle_add_product(inv):
     print("Add New Product")
     pid = input("Product ID: ")
 
-    found = False
-    for item in inv:
-        if item["id"] == pid:
-            found = True
+    existing_item = inv.search_product(pid)
 
-    if found:
+    if existing_item:
         print("Product already exists!\n")
     else:
         name = input("Product Name: ")
         price = float(input("Price: "))
         stock = int(input("Stock Quantity: "))
-        inv.append({"id": pid, "name": name, "price": price, "stock": stock})
+        
+        new_item = Product(pid, name, price, stock)
+        inv.add_product(new_item)
         print("Product added successfully!\n")
-
 
 def update_stock(inv):
     print("Update Stock")
@@ -161,7 +158,7 @@ while True:
     if option == "1":
         inventory.display_all()
     elif option == "2":
-        add_product(inventory)
+        handle_add_product(inventory)
     elif option == "3":
         update_stock(inventory)
     elif option == "4":
