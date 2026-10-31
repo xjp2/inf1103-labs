@@ -23,6 +23,24 @@ class Product:
     def get_stock(self):
         return self.__stock
     
+class PhysicalProduct(Product):
+    def __init__(self, product_id, name, price, stock, weight):
+        super().__init__(product_id, name, price, stock)
+        self.weight = weight
+
+    def display_information(self):
+        super().display_information()
+        print(f"Weight: {self.__weight} kg")
+
+class DigitalProduct(Product):
+    def __init__(self, product_id, name, price, stock, file_size):
+        super().__init__(product_id, name, price, stock)
+        self.file_size = file_size
+
+    def display_information(self):
+        super().display_information()
+        print(f"File Size: {self.__file_size} MB")
+        
 class Inventory:
     def __init__(self):
         self.__products = []
