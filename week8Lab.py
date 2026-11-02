@@ -36,9 +36,10 @@ class CanBeShipped(ABC):
         pass
 
 class PhysicalProduct(Product, CanBeShipped):
-    def __init__(self, product_id, name, price, stock, weight):
+    def __init__(self, product_id, name, price, stock, weight, product_type):
         super().__init__(product_id, name, price, stock)
         self.weight = weight
+        self.product_type = product_type
 
     def display_information(self):
         super().display_information()
@@ -52,9 +53,10 @@ class PhysicalProduct(Product, CanBeShipped):
         print(f"Shipping Cost: ${shipping_cost:.2f}")
 
 class DigitalProduct(Product):
-    def __init__(self, product_id, name, price, stock, file_size):
+    def __init__(self, product_id, name, price, stock, file_size, product_type):
         super().__init__(product_id, name, price, stock)
         self.file_size = file_size
+        self.product_type = product_type
 
     def display_information(self):
         super().display_information()
@@ -166,11 +168,13 @@ def handle_add_product(inv):
             stock = int(input("Stock Quantity: "))
             if selection == "P":
                 weight = float(input("Weight (kg): "))
-                new_item = PhysicalProduct(pid, name, price, stock, weight)
+                physical = "Physical Product"
+                new_item = PhysicalProduct(pid, name, price, stock, weight, physical)
                 inv.add_product(new_item)
             else:
                 file_size = float(input("File Size (MB): "))
-                new_item = DigitalProduct(pid, name, price, stock, file_size)
+                digital = "Digital Product"
+                new_item = DigitalProduct(pid, name, price, stock, file_size, digital)
                 inv.add_product(new_item)
             
             print("Product added successfully!\n")
