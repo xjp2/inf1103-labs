@@ -98,7 +98,7 @@ def load_inventory():
             print("Inventory loaded successfully.\n")
             clean = data.replace("true", "True").replace("false", "False").replace("null", "None")
             loaded_dicts = eval(clean) 
-            
+
             for item in loaded_dicts:
                 if "weight" in item:
                     raw_id = item["id"]
@@ -145,20 +145,29 @@ def save_inventory():
 
 def handle_add_product(inv):
     print("Add New Product")
-    pid = input("Product ID: ")
-
-    existing_item = inv.search_product(pid)
-
-    if existing_item:
-        print("Product already exists!\n")
+    selection = input("Is this a Physical Product (P) or Digital Product (D)? ").strip().upper()
+    if selection not in ["P", "D"]:
+        print("Invalid selection. Please choose 'P' for Physical or 'D' for Digital.\n")
+        return
     else:
-        name = input("Product Name: ")
-        price = float(input("Price: "))
-        stock = int(input("Stock Quantity: "))
-        
-        new_item = Product(pid, name, price, stock)
-        inv.add_product(new_item)
-        print("Product added successfully!\n")
+        pid = input("Product ID: ")
+
+        existing_item = inv.search_product(pid)
+
+        if existing_item:
+            print("Product already exists!\n")
+        else:
+            name = input("Product Name: ")
+            price = float(input("Price: "))
+            stock = int(input("Stock Quantity: "))
+            if selection == "P":
+                weight = float(input("Weight (kg): "))
+                new_item = PhysicalProduct(pid, name, price, stock, weight)
+            else:
+                file_size = float(input("File Size (MB): "))
+                new_item = DigitalProduct(pid, name, price, stock, file_size)
+            inv.add_product(new_item)
+            print("Product added successfully!\n")
 
 def update_stock(inv):
     print("Update Stock")
