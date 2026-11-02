@@ -50,7 +50,7 @@ class PhysicalProduct(Product, CanBeShipped):
     def calculate_shipping_cost(self):
         shipping_cost = self.weight * 5.0
         print(f"Shipping Cost: ${shipping_cost:.2f}")
-        
+
 class DigitalProduct(Product):
     def __init__(self, product_id, name, price, stock, file_size):
         super().__init__(product_id, name, price, stock)
@@ -100,12 +100,23 @@ def load_inventory():
             loaded_dicts = eval(clean) 
             
             for item in loaded_dicts:
-                raw_id = item["id"]
-                raw_name = item["name"]
-                raw_price = item["price"]
-                raw_stock = item["stock"]
-                new_product = Product(raw_id, raw_name, raw_price, raw_stock)
-                inventory.add_product(new_product)
+                if "weight" in item:
+                    raw_id = item["id"]
+                    raw_name = item["name"]
+                    raw_price = item["price"]
+                    raw_stock = item["stock"]
+                    raw_weight = item["weight"]
+                    new_product = PhysicalProduct(raw_id, raw_name, raw_price, raw_stock, raw_weight)
+                    inventory.add_product(new_product)
+                elif "file_size" in item:
+                    raw_id = item["id"]
+                    raw_name = item["name"]
+                    raw_price = item["price"]
+                    raw_stock = item["stock"]
+                    raw_file_size = item["file_size"]
+                    new_product = DigitalProduct(raw_id, raw_name, raw_price, raw_stock, raw_file_size)
+                    inventory.add_product(new_product)
+         
 
 
 def save_inventory():
