@@ -1,10 +1,12 @@
-class Product:
+from abc import ABC, abstractmethod
+
+class Product(ABC):
     def __init__(self, product_id, name, price, stock):
         self.__product_id = product_id
         self.__name = name
         self.__price = price
         self.__stock = stock
-        
+   
     def update_stock(self, new_quantity):
         self.__stock = new_quantity
 
@@ -22,6 +24,10 @@ class Product:
 
     def get_stock(self):
         return self.__stock
+
+    @abstractmethod
+    def get_fulfilment_info(self):
+        pass
     
 class PhysicalProduct(Product):
     def __init__(self, product_id, name, price, stock, weight):
@@ -30,7 +36,7 @@ class PhysicalProduct(Product):
 
     def display_information(self):
         super().display_information()
-        print(f"Weight: {self.__weight} kg")
+        print(f"Weight: {self.weight} kg")
 
 class DigitalProduct(Product):
     def __init__(self, product_id, name, price, stock, file_size):
@@ -39,7 +45,7 @@ class DigitalProduct(Product):
 
     def display_information(self):
         super().display_information()
-        print(f"File Size: {self.__file_size} MB")
+        print(f"File Size: {self.file_size} MB")
         
 class Inventory:
     def __init__(self):
