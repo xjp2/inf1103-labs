@@ -132,7 +132,11 @@ def save_inventory():
             file.write('    "id": "' + item.get_id() + '",\n')
             file.write('    "name": "' + item.get_name() + '",\n')
             file.write('    "price": ' + str(item.get_price()) + ",\n")
-            file.write('    "stock": ' + str(item.get_stock()) + "\n")
+            file.write('    "stock": ' + str(item.get_stock()) + ",\n")
+            if isinstance(item, PhysicalProduct):
+                file.write('    "weight": ' + str(item.weight) + "\n")
+            elif isinstance(item, DigitalProduct):
+                file.write('    "file_size": ' + str(item.file_size) + "\n")
             index += 1
             if index < total:
                 file.write("  },\n")
@@ -163,10 +167,12 @@ def handle_add_product(inv):
             if selection == "P":
                 weight = float(input("Weight (kg): "))
                 new_item = PhysicalProduct(pid, name, price, stock, weight)
+                inv.add_product(new_item)
             else:
                 file_size = float(input("File Size (MB): "))
                 new_item = DigitalProduct(pid, name, price, stock, file_size)
-            inv.add_product(new_item)
+                inv.add_product(new_item)
+            
             print("Product added successfully!\n")
 
 def update_stock(inv):
