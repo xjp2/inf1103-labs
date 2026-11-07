@@ -150,7 +150,7 @@ def load_inventory():
                     raw_price = item["price"]
                     raw_stock = item["stock"]
                     raw_weight = item["weight"]
-                    new_product = PhysicalProduct(raw_id, raw_name, raw_price, raw_stock, raw_weight, "Physical Product")
+                    new_product = PhysicalProduct(raw_id, raw_name, raw_price, raw_stock, raw_weight, "Physical Product", Supplier("SUP999", "Physical Supplier", "contact@default.com"))
                     inventory.add_product(new_product)
                 elif "file_size" in item:
                     raw_id = item["id"]
@@ -158,7 +158,7 @@ def load_inventory():
                     raw_price = item["price"]
                     raw_stock = item["stock"]
                     raw_file_size = item["file_size"]
-                    new_product = DigitalProduct(raw_id, raw_name, raw_price, raw_stock, raw_file_size, "Digital Product")
+                    new_product = DigitalProduct(raw_id, raw_name, raw_price, raw_stock, raw_file_size, "Digital Product", Supplier("SUP999", "Digital Supplier", "contact@default.com"))
                     inventory.add_product(new_product)
          
 
@@ -200,7 +200,7 @@ def handle_add_product(inv):
     else:
         pid = input("Product ID: ")
 
-        existing_item = inv.search_product(pid)
+        existing_item = inv.find_product(pid)
 
         if existing_item:
             print("Product already exists!\n")
@@ -211,12 +211,12 @@ def handle_add_product(inv):
             if selection == "P":
                 weight = float(input("Weight (kg): "))
                 physical = "Physical Product"
-                new_item = PhysicalProduct(pid, name, price, stock, weight, physical)
+                new_item = PhysicalProduct(pid, name, price, stock, weight, physical, Supplier("SUP999", "Physical Supplier", "contact@default.com"))
                 inv.add_product(new_item)
             else:
                 file_size = float(input("File Size (MB): "))
                 digital = "Digital Product"
-                new_item = DigitalProduct(pid, name, price, stock, file_size, digital)
+                new_item = DigitalProduct(pid, name, price, stock, file_size, digital, Supplier("SUP999", "Digital Supplier", "contact@default.com"))
                 inv.add_product(new_item)
             
             print("Product added successfully!\n")
@@ -226,7 +226,7 @@ def update_stock(inv):
     pid = input("Enter Product ID: ")
 
     # Ask the inventory object to find the product
-    target = inv.search_product(pid)
+    target = inv.find_product(pid)
 
     if target:
         print("Product Found:")
@@ -240,11 +240,11 @@ def update_stock(inv):
         print("Product not found.\n")
 
     
-def search_product(inv):
+def find_product(inv):
     print("Search Product")
     pid = input("Enter Product ID: ")
 
-    target = inv.search_product(pid)
+    target = inv.find_product(pid)
 
     if target:
         print("Product Found")
@@ -283,7 +283,7 @@ while True:
     elif option == "3":
         update_stock(inventory)
     elif option == "4":
-        search_product(inventory)
+        find_product(inventory)
     elif option == "5":
         save_inventory()
     elif option == "6":
