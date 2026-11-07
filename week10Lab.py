@@ -78,14 +78,20 @@ class DigitalProduct(Product):
 
 class Inventory:
     def __init__(self):
-        self.__products = []
+        self.__products: list[Product] = []
 
-    def add_product(self, product):
+    def add_product(self, product: Product):
             self.__products.append(product)
 
-    def search_product(self, target_id):
+    def remove_product(self, product_id: str):
+        for product in self.__products:
+            if product.get_id() == product_id:
+                self.__products.remove(product)
+                return True
+
+    def find_product(self, product_id: str):
         for item in self.__products:
-            if item.get_id() == target_id:
+            if item.get_id() == product_id:
                 return item
         return None
 
@@ -97,6 +103,7 @@ class Inventory:
         return self.__products
     
 inventory = Inventory()
+
 
 def load_inventory():
     global inventory
