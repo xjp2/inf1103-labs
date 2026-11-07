@@ -1,26 +1,28 @@
 from abc import ABC, abstractmethod
 
-class supplier:
-    def __init__(self, supplier_id, name, contact_email):
-        self.__supplier_id = supplier_id
-        self.__name = name
-        self.__contact_email = contact_email
+class Supplier:
+    def __init__(self, supplier_id: str, name: str, contact_email: str):
+        self.__supplier_id: str = supplier_id
+        self.__name: str = name
+        self.__contact_email: str = contact_email
 
     def display_information(self):
         print(f"Supplier ID: {self.__supplier_id} | Name: {self.__name} | Contact Email: {self.__contact_email}")
         
 class Product(ABC):
-    def __init__(self, product_id, name, price, stock):
-        self.__product_id = product_id
-        self.__name = name
-        self.__price = price
-        self.__stock = stock
-   
+    def __init__(self, product_id: str, name: str, price: float, stock: int, supplier: Supplier):
+        self.__product_id: str = product_id
+        self.__name: str = name
+        self.__price: float = price
+        self.__stock: int = stock
+        self.__supplier: Supplier = supplier
+
     def update_stock(self, new_quantity):
         self.__stock = new_quantity
 
     def display_information(self):
         print(f"ID: {self.__product_id} | Name: {self.__name} | Price: ${self.__price:.2f} | Stock: {self.__stock}")
+        self.__supplier.display_information()
 
     def get_id(self):
         return self.__product_id
@@ -45,10 +47,10 @@ class CanBeShipped(ABC):
         pass
 
 class PhysicalProduct(Product, CanBeShipped):
-    def __init__(self, product_id, name, price, stock, weight, product_type):
-        super().__init__(product_id, name, price, stock)
-        self.weight = weight
-        self.product_type = product_type
+    def __init__(self, product_id: str, name: str, price: float, stock: int, weight: float, product_type: str, supplier: Supplier):
+        super().__init__(product_id, name, price, stock, supplier)
+        self.weight: float = weight
+        self.product_type: str = product_type
 
     def display_information(self):
         super().display_information()
@@ -62,10 +64,10 @@ class PhysicalProduct(Product, CanBeShipped):
         print(f"Shipping Cost: ${shipping_cost:.2f}")
 
 class DigitalProduct(Product):
-    def __init__(self, product_id, name, price, stock, file_size, product_type):
-        super().__init__(product_id, name, price, stock)
-        self.file_size = file_size
-        self.product_type = product_type
+    def __init__(self, product_id: str, name: str, price: float, stock: int, file_size: float, product_type: str, supplier: Supplier):
+        super().__init__(product_id, name, price, stock, supplier)
+        self.file_size: float = file_size
+        self.product_type: str = product_type
 
     def display_information(self):
         super().display_information()
