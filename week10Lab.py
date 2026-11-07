@@ -80,16 +80,16 @@ class Inventory:
     def __init__(self):
         self.__products: list[Product] = []
 
-    def add_product(self, product: Product):
+    def add_product(self, product: Product) -> None:
             self.__products.append(product)
 
-    def remove_product(self, product_id: str):
+    def remove_product(self, product_id: str) -> bool:
         for product in self.__products:
             if product.get_id() == product_id:
                 self.__products.remove(product)
                 return True
 
-    def find_product(self, product_id: str):
+    def find_product(self, product_id: str) -> Product | None:
         for item in self.__products:
             if item.get_id() == product_id:
                 return item
@@ -98,6 +98,8 @@ class Inventory:
     def display_all(self):
         for item in self.__products:
             item.display_information()
+            item.get_fulfilment_info() 
+            
 
     def get_all_products(self):
         return self.__products
@@ -129,6 +131,10 @@ class Order:
 inventory = Inventory()
 
 
+def show_product_details(product: Product) -> None:
+    product.display_information()
+    product.get_fulfilment_info()
+    
 def load_inventory():
     global inventory
     with open("inventory.json", "a+") as file:
